@@ -25,16 +25,26 @@ jobs:
       - name: Run tests with coverage and html report
         run: pytest --cov=. --cov-report=term --cov-report=xml
             --html=report.html --self-contained-html
+            
       - name: Display coverage report
         run: |
           echo "=== Coverage Summary ==="
           coverage report
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload pages artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: './htmlcov'
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
           
       - name: Create deployment summary
+        if: always()
         run: |
           echo "Deployment completed!"
           echo "Coverage report available at:"
