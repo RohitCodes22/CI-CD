@@ -25,3 +25,26 @@ jobs:
       - name: Run tests with coverage and html report
         run: pytest --cov=. --cov-report=term --cov-report=xml
             --html=report.html --self-contained-html
+      - name: Display coverage report
+        run: |
+          echo "=== Coverage Summary ==="
+          coverage report
+
+      - name: HTML report to Github pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./htmlcov
+          destination_dir: htmlcov
+
+      - name: Create deployment summary
+        run: |
+          echo "Deployment completed!"
+          echo "Coverage report available at:"
+          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/htmlcov/"
+          echo ""
+          echo "Deployment Details:"
+          echo "Repository: ${{ github.repository }}"
+          echo "Commit SHA: ${{ github.sha }}"
+          echo "Ref: ${{ github.ref }}"
+          echo "Deployed on: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
