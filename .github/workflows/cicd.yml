@@ -30,13 +30,10 @@ jobs:
           echo "=== Coverage Summary ==="
           coverage report
 
-      - name: HTML report to Github pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./htmlcov
-          destination_dir: htmlcov
-
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+          
       - name: Create deployment summary
         run: |
           echo "Deployment completed!"
