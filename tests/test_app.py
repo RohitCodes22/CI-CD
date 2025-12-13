@@ -93,20 +93,20 @@ def test_square4():
     assert square(2.5) == 6.25
     
 def test_square_root1():
-    assert square_root(16) == 4.0
+    assert sqrt(16) == 4.0
     
 def test_square_root2():
-    assert square_root(0) == 0.0
+    assert sqrt(0) == 0.0
     
 def test_square_root3():
-    assert abs(square_root(2) - math.sqrt(2)) < 1e-9
+    assert abs(sqrt(2) - math.sqrt(2)) < 1e-9
     
 def test_square_root4():
-    assert square_root(1) == 1.0
+    assert sqrt(1) == 1.0
     
 def test_square_root5():
     with pytest.raises(ValueError, match="Cannot calculate square root of negative number"):
-            square_root(-5)
+            sqrt(-5)
     
 def test_logarithm1():
     assert logarithm(100, 10) == 2.0
@@ -140,17 +140,17 @@ def test_logarithm9():
     with pytest.raises(ValueError, match="Logarithm base cannot be 1"):
             logarithm(10, 1)
     
-def test_sine1():
-    assert sine(0) == 0.0
+def test_sin1():
+    assert sin(0) == 0.0
     
-def test_sine2():
-    assert abs(sine(math.pi / 2) - 1.0) < 1e-9
+def test_sin2():
+    assert abs(sin(math.pi / 2) - 1.0) < 1e-9
     
-def test_sine3():
-    assert abs(sine(math.pi)) < 1e-9
+def test_sin3():
+    assert abs(sin(math.pi)) < 1e-9
     
-def test_sine4():
-    assert abs(sine(-math.pi / 2) - (-1.0)) < 1e-9
+def test_sin4():
+    assert abs(sin(-math.pi / 2) - (-1.0)) < 1e-9
     
 def test_cosine1():
     assert cosine(0) == 1.0
