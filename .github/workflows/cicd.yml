@@ -36,15 +36,11 @@ jobs:
       - name: Ensure htmlcov exists
         run: mkdir -p htmlcov
 
-      - name: Disable Jekyll
-        run: touch htmlcov/.nojekyll
-
       - name: Display coverage report
         run: |
           echo "=== Coverage Summary ==="
           coverage report
-
-
+          
       - name: Disable Jekyll
         run: touch htmlcov/.nojekyll
 
