@@ -1,5 +1,6 @@
 # updated file
 name: Python CICD
+
 on: 
   push:
     branches: [ main ]
@@ -13,6 +14,7 @@ permissions:
 jobs:
   run-tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: checkout code
         uses: actions/checkout@v3
@@ -29,12 +31,15 @@ jobs:
         run: pytest
 
       - name: Run tests with coverage and html report
-        run: pytest -q --cov=.  --cov-report=term --cov-report=xml --cov-report=html
+        run: pytest -q --cov=. --cov-report=term --cov-report=xml --cov-report=html
             
       - name: Display coverage report
         run: |
           echo "=== Coverage Summary ==="
           coverage report
+
+      - name: Disable Jekyll
+        run: touch htmlcov/.nojekyll
 
       - name: Upload coverage artifact
         if: always()
@@ -45,27 +50,22 @@ jobs:
           retention-days: 30
         continue-on-error: true
 
+  deploy-pages:
+    needs: run-tests
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    environment:
+      name: github-pages
+
+    steps:
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
       - name: Upload pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './htmlcov'
+          path: htmlcov/
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
-          
-      - name: Create deployment summary
-        if: always()
-        run: |
-          echo "Deployment completed!"
-          echo "Coverage report available at:"
-          echo "https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/htmlcov/"
-          echo ""
-          echo "Deployment Details:"
-          echo "Repository: ${{ github.repository }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "Ref: ${{ github.ref }}"
-          echo "Deployed on: $(date -u +'%Y-%m-%d %H:%M:%S UTC')"
