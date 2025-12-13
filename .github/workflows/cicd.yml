@@ -32,11 +32,18 @@ jobs:
 
       - name: Run tests with coverage and html report
         run: pytest -q --cov=. --cov-report=term --cov-report=xml --cov-report=html
-            
+
+      - name: Ensure htmlcov exists
+        run: mkdir -p htmlcov
+
+      - name: Disable Jekyll
+        run: touch htmlcov/.nojekyll
+
       - name: Display coverage report
         run: |
           echo "=== Coverage Summary ==="
           coverage report
+
 
       - name: Disable Jekyll
         run: touch htmlcov/.nojekyll
